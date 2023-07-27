@@ -29,6 +29,7 @@
         ],
         "arrow-spacing": [
             "error", { "before": true, "after": true }
-        ]
+        ],
+        "implicit-arrow-linebreak": "off"
     }
 }
