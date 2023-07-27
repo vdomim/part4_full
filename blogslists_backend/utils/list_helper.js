@@ -45,9 +45,37 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    const likeCountsByAuthor = {}
+
+    blogs.forEach((blog) => {
+        // eslint-disable-next-line operator-linebreak
+        likeCountsByAuthor[blog.author] =
+            // eslint-disable-next-line operator-linebreak
+            (likeCountsByAuthor[blog.author] ?? 0) + blog.likes
+    })
+
+    const entries = Object.entries(likeCountsByAuthor)
+
+    const result = entries.reduce(
+        (max, current) => {
+            if (current[1] > max[1]) {
+                return current
+            }
+            return max
+        },
+        // eslint-disable-next-line comma-dangle
+        ['', 0]
+    )
+    return {
+        author: result[0],
+        likes: result[1],
+    }
+}
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
     mostBlogs,
+    mostLikes,
 }
