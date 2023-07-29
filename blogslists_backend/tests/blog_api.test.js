@@ -19,14 +19,18 @@ beforeEach(async () => {
     }
 })
 
-describe('------Part 4_8 Tests------', () => {
-    test('Correct number of blogs', async () => {
+describe('------Part 4 Tests------', () => {
+    test('-4.8 Correct number of blogs', async () => {
         const response = await api
             .get('/api/blogs')
             .expect(200)
             .expect('Content-Type', /application\/json/)
-        console.log(response.body)
         expect(response.body).toHaveLength(helper.initialBlogs.length)
+    })
+
+    test('-4.9 Id propperty checking', async () => {
+        const response = await api.get('/api/blogs')
+        expect(response.body[0].id).toBeDefined()
     })
 })
 
