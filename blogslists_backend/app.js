@@ -5,6 +5,8 @@ const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('express-async-errors')
 
 const app = express()
 
