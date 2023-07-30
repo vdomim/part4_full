@@ -2,11 +2,11 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('express-async-errors')
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
-// eslint-disable-next-line import/no-extraneous-dependencies
-require('express-async-errors')
 
 const app = express()
 

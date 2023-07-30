@@ -58,8 +58,23 @@ describe('------Part 4 Tests------', () => {
         }
 
         const response = await api.post('/api/blogs').send(newBlog)
-        console.log(response)
         expect(response.body.likes).toBe(0)
+    })
+
+    test('-4.12 Blog without title and url status 400 Bad request', async () => {
+        const newBlogWithoutTitle = {
+            author: 'Victor Dominguez',
+            url: 'another URL',
+        }
+
+        const newBlogWithoutUrl = {
+            title: 'Blog without URL',
+            author: 'Victor Dominguez',
+        }
+
+        await api.post('/api/blogs').send(newBlogWithoutTitle).expect(400)
+
+        await api.post('/api/blogs').send(newBlogWithoutUrl).expect(400)
     })
 })
 
