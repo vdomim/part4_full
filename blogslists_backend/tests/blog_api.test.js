@@ -89,6 +89,26 @@ describe('------Part 4 Tests------', () => {
         const contents = blogsAtEnd.map((r) => r.title)
         expect(contents).not.toContain(blogToDelete.title)
     })
+
+    test.only('-4.14 Updating an existing blog', async () => {
+        const updatedInfo = {
+            title: 'React patterns',
+            author: 'Michael Chan',
+            url: 'https://reactpatterns.com/',
+            likes: 15,
+        }
+
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        const updatedBlog = await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(updatedInfo)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(updatedBlog.body.likes).toBe(15)
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+    })
 })
 
 afterAll(() => {
