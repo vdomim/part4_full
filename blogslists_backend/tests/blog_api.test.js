@@ -20,7 +20,7 @@ beforeEach(async () => {
 })
 
 describe('------Part 4 Tests------', () => {
-    test('-4.8 Correct number of blogs', async () => {
+    test('-4.8 GET correct number of blogs', async () => {
         const response = await api
             .get('/api/blogs')
             .expect(200)
@@ -31,6 +31,23 @@ describe('------Part 4 Tests------', () => {
     test('-4.9 Id propperty checking', async () => {
         const response = await api.get('/api/blogs')
         expect(response.body[0].id).toBeDefined()
+    })
+
+    test('-4.10 POST number of blogs', async () => {
+        const blog = {
+            title: 'Blog for testing part 4.10',
+            author: 'Victor Dominguez',
+            url: 'notValidURL',
+            likes: 14,
+        }
+
+        await api.post('/api/blogs').send(blog)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+        const contents = blogsAtEnd.map((n) => n.title)
+        expect(contents).toContain('Blog for testing part 4.10')
     })
 })
 

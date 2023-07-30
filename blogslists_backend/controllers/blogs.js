@@ -8,12 +8,11 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 // Peticion POST para insertar un nuevo blog en la BD
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', async (request, response) => {
     const blog = new Blog(request.body)
 
-    blog.save().then((result) => {
-        response.status(201).json(result)
-    })
+    const result = await blog.save()
+    response.status(201).json(result)
 })
 
 module.exports = blogsRouter
