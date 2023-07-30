@@ -15,4 +15,9 @@ blogsRouter.post('/', async (request, response) => {
     response.status(201).json(result)
 })
 
+// Peticion DELETE para eliminar un blog existente en la BD
+blogsRouter.delete('/:id', async (request, response) => {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+})
 module.exports = blogsRouter
