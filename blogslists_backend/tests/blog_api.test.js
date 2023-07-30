@@ -34,20 +34,32 @@ describe('------Part 4 Tests------', () => {
     })
 
     test('-4.10 POST number of blogs', async () => {
-        const blog = {
+        const newBlog = {
             title: 'Blog for testing part 4.10',
             author: 'Victor Dominguez',
             url: 'notValidURL',
             likes: 14,
         }
 
-        await api.post('/api/blogs').send(blog)
+        await api.post('/api/blogs').send(newBlog)
 
         const blogsAtEnd = await helper.blogsInDb()
         expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
         const contents = blogsAtEnd.map((n) => n.title)
         expect(contents).toContain('Blog for testing part 4.10')
+    })
+
+    test('-4.11 Saving blog without likes', async () => {
+        const newBlog = {
+            title: 'Blog without likes',
+            author: 'Victor Dominguez',
+            url: 'another URL',
+        }
+
+        const response = await api.post('/api/blogs').send(newBlog)
+        console.log(response)
+        expect(response.body.likes).toBe(0)
     })
 })
 
