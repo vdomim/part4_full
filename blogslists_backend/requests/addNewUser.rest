@@ -6,3 +6,23 @@ Content-Type: application/json
     "name": "victor",
     "password": "myurl"
 }
+
+### Invalid username request
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "vi",
+    "name": "victor",
+    "password": "myurl"
+}
+
+### Invalid username request
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "yespri93",
+    "name": "victor",
+    "password": "my"
+}

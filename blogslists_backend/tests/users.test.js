@@ -19,7 +19,7 @@ describe('when there is initially one user in db', () => {
         await user.save()
     })
 
-    test.only('creation succeeds with a fresh username', async () => {
+    test('-5.15 creation succeeds with a fresh username', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -39,5 +39,36 @@ describe('when there is initially one user in db', () => {
 
         const usernames = usersAtEnd.map((u) => u.username)
         expect(usernames).toContain(newUser.username)
+    })
+
+    test.only('-5.16 Creating a invaled user', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const invalidUsernameUser = {
+            username: 'vc',
+            name: 'Victor',
+            password: 'secretpassword',
+        }
+
+        const invalidPassUser = {
+            username: 'yespri93',
+            name: 'Victor',
+            password: 'as',
+        }
+
+        await api
+            .post('/api/users')
+            .send(invalidUsernameUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        await api
+            .post('/api/users')
+            .send(invalidPassUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
 })
