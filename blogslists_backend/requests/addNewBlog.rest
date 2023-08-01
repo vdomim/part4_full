@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0Yzk1N2RhODk0MzJkMDY3ZTcyNTQwYyIsImlhdCI6MTY5MDkyOTUwNn0.EMqOCvTdQPQmxGR-KV1RQJcLliugPi_lJwwDOrhCpCA
 
 {
-    "title": "Another blog",
+    "title": "Blog with authorization",
     "author": "Victor Dominguez",
     "url": "myurl.com",
     "likes": "7",
