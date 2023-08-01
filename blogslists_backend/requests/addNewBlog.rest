@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "My 3rd blog",
+    "title": "Another blog",
     "author": "Victor Dominguez",
     "url": "myurl.com",
-    "likes": "7"
+    "likes": "7",
+    "user": "64c957da89432d067e72540c"
 }

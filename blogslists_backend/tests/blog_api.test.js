@@ -33,7 +33,7 @@ describe('------Part 4 Tests------', () => {
         expect(response.body[0].id).toBeDefined()
     })
 
-    test('-4.10 POST number of blogs', async () => {
+    test.only('-4.10 POST number of blogs', async () => {
         const newBlog = {
             title: 'Blog for testing part 4.10',
             author: 'Victor Dominguez',
