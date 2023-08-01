@@ -1,10 +1,19 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose')
+require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
-    username: String,
-    name: String,
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+        minlength: 3,
+    },
+    name: {
+        type: String,
+    },
     passwordHash: String,
 })
 

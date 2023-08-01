@@ -90,7 +90,7 @@ describe('------Part 4 Tests------', () => {
         expect(contents).not.toContain(blogToDelete.title)
     })
 
-    test.only('-4.14 Updating an existing blog', async () => {
+    test('-4.14 Updating an existing blog', async () => {
         const updatedInfo = {
             title: 'React patterns',
             author: 'Michael Chan',
