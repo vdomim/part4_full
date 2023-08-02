@@ -33,8 +33,26 @@ blogsRouter.post('/', async (request, response) => {
 
 // Peticion DELETE para eliminar un blog existente en la BD
 blogsRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+    if (!request.token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+    if (user.blogs.includes(request.params.id)) {
+        await Blog.findByIdAndRemove(request.params.id)
+
+        user.blogs = user.blogs.filter(
+            (blog) => blog.toString() !== request.params.id
+        )
+
+        await user.save()
+        response.status(204).end()
+    } else {
+        return response
+            .status(401)
+            .json({ error: 'This user is not the owner of the blog' })
+    }
 })
 
 // Peticion PUT para actualizar los likes de un blog existente
