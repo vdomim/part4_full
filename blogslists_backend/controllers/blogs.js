@@ -3,7 +3,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable comma-dangle */
 const blogsRouter = require('express').Router()
-const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -17,12 +16,10 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
     const { body } = request
     console.log('Token: ', request.token)
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!request.token || !decodedToken.id) {
+    if (!request.token || !request.user) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(request.user)
 
     const newBlog = Blog({ ...body, user: user.id })
     const savedBlog = await newBlog.save()
@@ -33,12 +30,10 @@ blogsRouter.post('/', async (request, response) => {
 
 // Peticion DELETE para eliminar un blog existente en la BD
 blogsRouter.delete('/:id', async (request, response) => {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-    if (!request.token || !decodedToken.id) {
+    if (!request.token || !request.user) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(request.user)
     if (user.blogs.includes(request.params.id)) {
         await Blog.findByIdAndRemove(request.params.id)
 

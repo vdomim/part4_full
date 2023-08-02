@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable import/no-extraneous-dependencies */
+const jwt = require('jsonwebtoken')
 const logger = require('./logger')
 
 const requestLogger = (request, response, next) => {
@@ -39,9 +42,25 @@ const tokenExtractor = (request, response, next) => {
     next()
 }
 
+const userExtractor = (request, response, next) => {
+    if (request.token) {
+        console.log(
+            '🚀 ~ file: middleware.js:48 ~ userExtractor ~ request.token:',
+            // eslint-disable-next-line comma-dangle
+            request.token
+        )
+        const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+        request.user = decodedToken.id
+    }
+
+    next()
+}
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
     tokenExtractor,
+    userExtractor,
 }
