@@ -15,7 +15,6 @@ blogsRouter.get('/', async (request, response) => {
 // Peticion POST para insertar un nuevo blog en la BD
 blogsRouter.post('/', async (request, response) => {
     const { body } = request
-    console.log('Token: ', request.token)
     if (!request.token || !request.user) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
@@ -34,13 +33,13 @@ blogsRouter.delete('/:id', async (request, response) => {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
     const user = await User.findById(request.user)
-    if (user.blogs.includes(request.params.id)) {
-        await Blog.findByIdAndRemove(request.params.id)
+    const blogs = user.blogs.map((b) => b.toString())
 
+    if (blogs.includes(request.params.id)) {
+        await Blog.findByIdAndRemove(request.params.id)
         user.blogs = user.blogs.filter(
             (blog) => blog.toString() !== request.params.id
         )
-
         await user.save()
         response.status(204).end()
     } else {
